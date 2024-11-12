@@ -10,8 +10,22 @@ const Create = ({}) => {
   const [date, setDate] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log(people, planName, description, password, date);
+    const response = await fetch("http://localhost:3000/api/plan/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        planName,
+        description,
+        password,
+        people,
+        date: new Date(date).getTime() / 1000,
+      }),
+    });
+    console.log(response.data);
   };
 
   const addPersonInput = () => {
