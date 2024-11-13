@@ -1,9 +1,8 @@
 "use client";
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import { useState } from "react";
 
-const Create = ({}) => {
-  const [people, setPeople] = useState(["", ""]);
+const Create = () => {
+  const [people, setPeople] = useState([{ name: "", hasCancelled: false }]);
   const [planName, setPlanName] = useState("");
   const [description, setDescription] = useState("");
   const [password, setPassword] = useState("");
@@ -11,25 +10,29 @@ const Create = ({}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async () => {
-    console.log(people, planName, description, password, date);
-    const response = await fetch("http://localhost:3000/api/plan/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        planName,
-        description,
-        password,
-        people,
-        date: new Date(date).getTime() / 1000,
-      }),
-    });
-    console.log(response.data);
+    try {
+      const response = await fetch("http://localhost:3000/api/plan/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          planName,
+          description,
+          password,
+          people,
+          date: new Date(date).getTime() / 1000,
+        }),
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching message:", error);
+    }
   };
 
   const addPersonInput = () => {
-    setPeople([...people, ""]);
+    setPeople([...people, { name: "", hasCancelled: false }]);
   };
 
   const removePersonInput = (index) => {
@@ -37,6 +40,7 @@ const Create = ({}) => {
     newPeople.splice(index, 1);
     setPeople(newPeople);
   };
+
   return (
     <div className="plan-wrapper">
       <h1 className="text-2xl underline">create your plan</h1>
@@ -62,8 +66,10 @@ const Create = ({}) => {
               <input
                 type="checkbox"
                 className="sr-only peer show-pass"
-                value=""
-                onChange={() => setShowPassword(!showPassword)}
+                onChange={() => {
+                  setPassword("");
+                  setShowPassword(!showPassword);
+                }}
               />
               <div className="group peer bg-white rounded-full duration-300 w-8 h-4 ring-2 ring-red-500 after:duration-300 after:bg-red-500 peer-checked:after:bg-green-500 peer-checked:ring-green-500 after:rounded-full after:absolute after:h-2.5 after:w-2.5 after:top-[3px] after:left-1 after:flex after:justify-center after:items-center peer-checked:after:translate-x-[14px] peer-hover:after:scale-95"></div>
             </label>
@@ -73,6 +79,7 @@ const Create = ({}) => {
             type="password"
             id="password"
             className="m-2 p-1 rounded relative text-black"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
@@ -83,14 +90,18 @@ const Create = ({}) => {
               <input
                 type="text"
                 className="m-2 p-1 rounded text-black"
-                value={person}
+                value={person.name}
                 onChange={(e) => {
                   const newPeople = [...people];
-                  newPeople[index] = e.target.value;
+                  newPeople[index] = {
+                    ...newPeople[index],
+                    name: e.target.value,
+                  };
                   setPeople(newPeople);
                 }}
                 placeholder="enter person"
               />
+
               {people.length > 2 && (
                 <button
                   className="ml-2 text-red-500"
