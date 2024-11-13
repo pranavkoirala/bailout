@@ -4,6 +4,7 @@ import { loadSlim } from "@tsparticles/slim";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Create from "./pages/Create/Create";
+import PlanPage from "./pages/PlanPage/PlanPage";
 
 function App() {
   const [init, setInit] = useState(false);
@@ -25,6 +26,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/create" element={<Create />} />
+            <Route path="/:id" element={<PlanPage />} />
           </Routes>
         </div>
         <Particles
