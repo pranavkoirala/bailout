@@ -16,10 +16,12 @@ const planSchema = new mongoose.Schema({
     required: false,
   },
 
-  people: {
-    type: Array,
-    required: true,
-  },
+  people: [
+    {
+      name: { type: String, required: true },
+      hasCancelled: { type: Boolean, default: false },
+    },
+  ],
 
   date: {
     type: Number,
