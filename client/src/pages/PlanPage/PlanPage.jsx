@@ -10,7 +10,7 @@ const PlanPage = () => {
   const [isCancelled, setIsCancelled] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/plan/id/${id}`)
+    fetch(`https://bailout.onrender.com/api/plan/id/${id}`)
       .then((response) => response.json())
       .then((data) => setData(data));
   }, [id]);
@@ -18,7 +18,7 @@ const PlanPage = () => {
   const handleCancel = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/plan/cancel/${id}`,
+        `https://bailout.onrender.com/api/plan/cancel/${id}`,
         {
           method: "POST",
           headers: {

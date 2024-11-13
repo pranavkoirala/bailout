@@ -13,19 +13,22 @@ const Create = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/plan/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          planName,
-          description,
-          password,
-          people,
-          date: new Date(date).getTime() / 1000,
-        }),
-      });
+      const response = await fetch(
+        "https://bailout.onrender.com/api/plan/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            planName,
+            description,
+            password,
+            people,
+            date: new Date(date).getTime() / 1000,
+          }),
+        }
+      );
       const data = await response.json();
 
       if (data?.planId) {
