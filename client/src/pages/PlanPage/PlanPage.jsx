@@ -50,7 +50,7 @@ const PlanPage = () => {
   const handleSubmit = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/plan/verify/${id}`,
+        `https://bailout.onrender.com/api/plan/verify/${id}`,
         {
           method: "POST",
           headers: {
