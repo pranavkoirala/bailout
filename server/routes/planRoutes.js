@@ -86,11 +86,10 @@ router.post("/cancel/:id", async (req, res) => {
       return res.status(404).json({ message: "Plan not found" });
     }
 
-    // Use findOneAndUpdate to modify the correct array element
     const updatedPlan = await Plan.findOneAndUpdate(
-      { "people.name": personName.name }, // Match by name
+      { "people.name": personName.name }, 
       { $set: { "people.$.hasCancelled": true } },
-      { new: true } // Option to return the updated document
+      { new: true } 
     );
 
     if (!updatedPlan) {
