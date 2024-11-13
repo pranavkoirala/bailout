@@ -21,7 +21,7 @@ function App() {
 
   return (
     <Router>
-      <div className="flex flex-col justify-center items-center bg-[#111000] h-screen text-white font-mono text-center w-screen">
+      <div className="flex flex-col justify-center items-center bg-[#010101] h-screen text-white font-mono text-center w-screen">
         <div className="text-white flex-1 flex justify-center items-center">
           <Routes>
             <Route path="/" element={<Home />} />
