@@ -74,10 +74,10 @@ router.post("/verify/:id", async (req, res) => {
 });
 
 router.post("/cancel/:id", async (req, res) => {
-  const { personName } = req.body;
+  const { personId } = req.body;
 
-  if (!personName) {
-    return res.status(400).json({ message: "Person name is missing" });
+  if (!personId) {
+    return res.status(400).json({ message: "Person Id is missing" });
   }
 
   try {
@@ -87,12 +87,13 @@ router.post("/cancel/:id", async (req, res) => {
     }
 
     const updatedPlan = await Plan.findOneAndUpdate(
-      { "people.name": personName.name }, 
+      { "people._id": personId },
       { $set: { "people.$.hasCancelled": true } },
-      { new: true } 
+      { new: true }
     );
 
     if (!updatedPlan) {
+      console.log("NO CHANGES MADE");
       return res.status(400).json({ message: "No changes made" });
     }
 

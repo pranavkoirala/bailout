@@ -24,7 +24,7 @@ const PlanPage = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ personName: selectedPerson }),
+          body: JSON.stringify({ personId: selectedPerson._id }),
         }
       );
 
@@ -39,6 +39,7 @@ const PlanPage = () => {
         }));
         setIsCancelled(true);
         setSelectedPerson(null);
+        // window.location.reload();
       } else {
         alert("Error cancelling plan");
       }

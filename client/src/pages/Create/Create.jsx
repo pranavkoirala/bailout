@@ -1,6 +1,6 @@
 import { useState } from "react";
-
 import Footer from "../../assets/Footer";
+
 const Create = () => {
   const [people, setPeople] = useState([{ name: "", hasCancelled: false }]);
   const [planName, setPlanName] = useState("");
@@ -10,8 +10,10 @@ const Create = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [planId, setPlanId] = useState(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
+    setLoading(true); // Show loader
     try {
       const response = await fetch(
         "https://bailout.onrender.com/api/plan/create",
@@ -30,13 +32,14 @@ const Create = () => {
         }
       );
       const data = await response.json();
-
       if (data?.planId) {
         setPlanId(data.planId);
         setFormSubmitted(true);
       }
     } catch (error) {
       console.error("Error fetching message:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -51,7 +54,7 @@ const Create = () => {
   };
 
   const handleShare = () => {
-    const planUrl = `${window.location.origin}/plan/${planId}`;
+    const planUrl = `${window.location.origin}/${planId}`;
     navigator.clipboard.writeText(planUrl);
   };
 
@@ -59,7 +62,13 @@ const Create = () => {
     <div className="plan-wrapper">
       <h1 className="text-2xl underline">create your plan</h1>
       <div className="plan-form border border-white mt-2 h-fit p-4 flex flex-col">
-        {formSubmitted ? (
+        {loading ? (
+          <div className="flex-col gap-4 w-full flex items-center justify-center">
+            <div className="w-20 h-20 border-4 border-transparent text-blue-400 text-4xl animate-spin flex items-center justify-center border-t-blue-400 rounded-full">
+              <div className="w-16 h-16 border-4 border-transparent text-red-400 text-2xl animate-spin flex items-center justify-center border-t-red-400 rounded-full"></div>
+            </div>
+          </div>
+        ) : formSubmitted ? (
           <div className="flex flex-col items-center">
             <button
               className="h-10 w-50 p-2 mt-4 bg-[#292929] border-2 border-[#3e3e3e] rounded-lg text-white text-base hover:border-[#fff] cursor-pointer transition"
@@ -164,7 +173,6 @@ const Create = () => {
           </>
         )}
       </div>
-
       <Footer />
     </div>
   );
