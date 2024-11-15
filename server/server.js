@@ -21,6 +21,12 @@ mongoose
 
 app.use("/api/plan", planRoutes);
 
+app.get("*", (req, res) => {
+  res.send(
+    "Did you mean <a href='https://bailout.netlify.app'>bailout.netlify.app</a>? <br> Check out the repo at <a href='https://github.com/pranavkoirala/bailout'>GitHub</a>."
+  );
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}...`);
