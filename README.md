@@ -1,4 +1,4 @@
-tired of cancelling plans?
+i got tired of going to plans i did NOT want to.
 
 bailout was made because i had been going out a lot
 and ended up going to many outings that i just did not 
